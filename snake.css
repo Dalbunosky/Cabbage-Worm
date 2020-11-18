@@ -1,0 +1,21 @@
+.odd{
+    background-color: lightgreen;
+}
+.even{
+    background-color: green;
+}
+.head{
+    border: 1px solid red;
+}
+.snake{
+    background-color: blue;
+}
+.food{
+    background: orange;
+}
+div, canvas{
+    border: 1px solid black;
+}
+#snake{
+    
+}
