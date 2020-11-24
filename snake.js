@@ -163,26 +163,86 @@ document.addEventListener("keydown", direction);
         // if(score % 5 === 0) speed *= 0.95;
     };
 
-// classes board, snake, tile, food
 
+
+
+// classes board, snake, tile, food
 // Build game:
-    // Set snake head
+    // Grab element from HTML
+    // Initialize variables
+        // Height and width will change to depend on user input in the future.
+        // Score, highScore keep track of scores
+        // Speed: how fast
+        // Tile: width of snake
+        // Active: Is game going on? Prevent height and width from changing mid-game/
+    // Change to be window width / (user request + 2), so long tile > minimum
+
+    // Set snake head, use emptySpaces to keep track of empty spaces
     // Set food
-    // EmptySpaces array, just in case
-    // Run game
+
 // Run game
-    // Turn based
-    // Draw snake
+    // Turn every SPEED
+// Game over
+    // clearInterval, Active = false
+
+// Changing direction
+    // listener
+    // change direction
+    // if active, draw
+
+// FUNCTIONS:
+// Turn
+    // Draw
+        // Draw canvas
+        // Draw snake
+        // Draw food
     // Game Over?
-        // End Game, TBD, DONT DRAW
+        // Head hit wall?
+        // Length > 4?
+            // Head hit self?
+        // Active = false
+        // clearInterval(game);
+        //--------------------------
+        // delete head from emptySet
+    // Advance
+        // Determine new head
+            // old head + direction
+        // unshift new head
     // Eat food?
         // DON'T POP
         // Reassign food
         // update score
+        //--------------------------
+        // Pop tail
+        // Add tail to emptySet
 
 // Food assignment
-    // If H*W *0.5 > snake length
-        // Fully random assign
-        // Repeat if food placed on snake
-    // Else
-        // Create emptySpaces, begin to track where snake isn't
+
+// Draw function
+    // Draw canvas
+    // Draw snake
+    // Draw food
+        // Snake eat? setFood
+        // Draw food
+
+    // Move snake
+        // old head position
+
+        // move
+
+    // If the snake eats food
+        // Add and display new score
+        // Assign new food
+        // remove tail, add to available Set
+    // Append new head
+
+// Change direction
+
+// Game over?
+    // check for snake head collision with wall
+    // check for snake head collision with self
+        // Snake can't hit self if length < 5
+    // If head location is not in emptySpaces Set, snake has crashed into self
+
+    // Game not over. Delete new head location from Set
+    // 
