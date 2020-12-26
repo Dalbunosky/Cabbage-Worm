@@ -20,12 +20,12 @@
         let snake = [];
         const emptySpaces = new Set();
         for(let i = 0; i < width * height; i++){
-            emptySpaces.add(i * tile);
+            emptySpaces.add(i);
         }
 
         snake[0] = {
-            x: Math.floor(Math.random()*width+1) * tile,
-            y: Math.floor(Math.random()*height+1) * tile
+            x: Math.floor(Math.random()*width),
+            y: Math.floor(Math.random()*height)
         }
         // Can't remove from emptySpaces until check has been done, or game will crash
         // emptySpaces.delete(snake[0].x * width + snake[0].y);
@@ -50,10 +50,19 @@
 
 // Turn
     function turn(){
-    // Draw
-        draw();
-    // Game Over?
-        if(gameOver()){
+        console.log("SNAKE", snake[0].x,snake[0].y,snake[0].x*width + snake[0].y);
+        console.log("FOOD", food.x,food.y,food.x*width + food.y)
+    // Determine new head
+        let snakeX = snake[0].x;
+        let snakeY = snake[0].y;
+        if(direction){
+            if( direction === "LEFT") snakeX -= 1;
+            else if( direction === "UP") snakeY -= 1;
+            else if( direction === "RIGHT") snakeX += 1;
+            else if( direction === "DOWN") snakeY += 1;
+    // Check if new position will end game
+        if(gameOver(snakeX, snakeY)){
+            console.log("GAMEOVER, ", score);
         // End Game, TBD, DONT DRAW
         // Active = false
             clearInterval(game);
@@ -65,40 +74,30 @@
             score = 0;
         }
     // Advance
-        // Determine new head
-        let snakeX = snake[0].x;
-        let snakeY = snake[0].y;
-        // old head + direction
         // unshift new head
         // Remove head from emptySpaces
-        if(direction){
-            if( direction === "LEFT") snakeX -= tile;
-            else if( direction === "UP") snakeY -= tile;
-            else if( direction === "RIGHT") snakeX += tile;
-            else if( direction === "DOWN") snakeY += tile;
-            snake.unshift({
-                x: snakeX,
-                y: snakeY
-            });
-            emptySpaces.delete((snakeX / tile) * width + (snakeY / tile))
+        snake.unshift({
+            x: snakeX,
+            y: snakeY
+        });
+        emptySpaces.delete(snakeX * width + snakeY)
         // Eat food?
             if(snakeX === food.x && snakeY === food.y){
             // update score
-                scoreUpdate();
             // Reassign food
+                scoreUpdate();
                 food = setFood();
             }
             else{
             // Pop tail
-            const poop = snake.pop();
             // Add tail to emptySpaces
+            const poop = snake.pop();
             emptySpaces.add(poop.x * width + poop.y)
             }        
         }
-
-
+    // Draw
+        draw();
     }
-
 
 // FUNCTIONS:
 
@@ -109,26 +108,41 @@
         ctx.fillRect(0,0,(width + 2) * tile, (height + 2) * tile);
         ctx.fillStyle = "saddlebrown";
         ctx.fillRect(tile, tile, width * tile, height * tile);
+        
+        for(let i = 0; i < width; i++){
+            for(let j = 0; j < height; j++){
+                ctx.font = "20px Comic Sans MS";
+                ctx.fillStyle = "blue";
+                // ctx.textAlign = "center";
+                let tileNumber = i * width + j;
+                ctx.strokeRect(tile + tile * i, tile + tile * j, tile, tile);
+                ctx.fillText( tileNumber, tile + 12 + tile * i, tile + 30 + tile * j);
+
+            }
+        }
+
+
+        console.log([...emptySpaces]);
     // Draw snake
         for(let i =0; i < snake.length; i++){
             ctx.fillStyle = (i === 0) ? "orange" : "yellow";
-            ctx.fillRect(snake[i].x, snake[i].y, tile, tile);
+            ctx.fillRect(tile + tile * snake[i].x, tile + tile * snake[i].y, tile, tile);
 
             ctx.strokeStyle = "red";
-            ctx.strokeRect(snake[i].x, snake[i].j, snake[i].x + tile, snake[i].j + tile);
+            ctx.strokeRect(tile + tile * snake[i].x, tile + tile * snake[i].y, tile, tile);
         }
     // Draw food
-        ctx.drawImage(foodImg, food.x, food.y, tile, tile);
+        ctx.drawImage(foodImg, tile + tile * food.x, tile + tile * food.y, tile, tile);
     }
 
 // Food assignment
     function setFood(){
         let openSpots = [...emptySpaces];
-        let newFoodLocation = openSpots[Math.floor(Math.random() * openSpots.length)] / tile;
+        let newFoodLocation = openSpots[Math.floor(Math.random() * (openSpots.length + 1))];
         // return [Math.floor(newFoodLocation / width), newFoodLocation % width]
         return {
-            x: tile * (1 + Math.floor(newFoodLocation / width)),
-            y: tile * (1 + newFoodLocation % width)
+            x: Math.floor(newFoodLocation / width),
+            y: newFoodLocation % width
         }
     }
 
@@ -147,7 +161,7 @@
         else if(event.keyCode === 40 && direction != "UP"){
             direction = "DOWN";
         }
-        turn();
+        if(active) turn();
     }
 
 // Update score
@@ -158,18 +172,18 @@
     };
 
 // Game over?
-    function gameOver(){
-        const head = snake[0];
+    function gameOver(x, y){
     // check for snake head collision with wall
-        if(head.x < tile || head.x > (width * tile + tile) || head.y < tile || head.y > (height * tile + tile)) return true;
+        if((x < 0) || (x > width) || (y < 0) || (y > height)) return true;
     // check for snake head collision with self
         // Snake can't hit self if length < 5
         if(snake.length < 5) return false;
     // If head location is not in emptySpaces Set, snake has crashed into self
-        if(!emptySpaces.has((head.x / tile) * width + (head.y / tile))) return true
-
-    // Game not over. Delete new head location from Set
-        emptySpaces.delete((head.x / tile) * width + (head.y / tile))
+        if(!emptySpaces.has(x * width + y)){
+            console.log("HIT");
+            return true
+        };
+    // Game not over.
         return false;
     }
     
