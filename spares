@@ -10,3 +10,15 @@
     </body>
 
     I'm an engineering enthusiast switching from mechanical to software. I was point of contact for debugging pants-on-fire incidents in my previous work. My interest in Software began when I played a QA role in an early stage startup for fun and am now searching for opportunities professionally.
+
+    How to 
+
+createElement
+createDocumentFragment()
+replaceChild
+insertAdjacentHTML
+
+
+  var btn = document.createElement("DIV");
+  btn.innerHTML += "<div class='specs-or-stats'><p class='display-stat'>Score: <em id='score'>0</em></p><p class='display-stat'>Time: <em id='time'>0</em>s</p><p class='display-stat'>Highest score: <em id='highScore'>0</em></p></div>";
+  document.body.appendChild(btn);
