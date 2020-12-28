@@ -7,7 +7,7 @@
     // Initialize variables
         // Height and width will change to depend on user input in the future.
         // Tile: width of snake
-        const height = 10, width = 10, tile = 50;
+        const height = 10, width = 5, tile = 50;
         // Score, highScore keep track of scores
         // Speed: Interval between draws, determines speed of game
         // Active: Is game going on? Prevent height and width from changing mid-game
@@ -50,8 +50,6 @@
 
 // Turn
     function turn(){
-        console.log("SNAKE", snake[0].x,snake[0].y,snake[0].x*width + snake[0].y);
-        console.log("FOOD", food.x,food.y,food.x*width + food.y)
     // Determine new head
         let snakeX = snake[0].x;
         let snakeY = snake[0].y;
@@ -80,7 +78,7 @@
             x: snakeX,
             y: snakeY
         });
-        emptySpaces.delete(snakeX * width + snakeY)
+        emptySpaces.delete(snakeX * height + snakeY)
         // Eat food?
             if(snakeX === food.x && snakeY === food.y){
             // update score
@@ -92,11 +90,13 @@
             // Pop tail
             // Add tail to emptySpaces
             const poop = snake.pop();
-            emptySpaces.add(poop.x * width + poop.y)
+            emptySpaces.add(poop.x * height + poop.y)
             }        
         }
     // Draw
         draw();
+        console.log("SNAKE", snake[0].x, snake[0].y, snake[0].x*height + snake[0].y);
+        console.log("FOOD", food.x, food.y, food.x*height + food.y)
     }
 
 // FUNCTIONS:
@@ -114,7 +114,7 @@
                 ctx.font = "20px Comic Sans MS";
                 ctx.fillStyle = "blue";
                 // ctx.textAlign = "center";
-                let tileNumber = i * width + j;
+                let tileNumber = i * height + j;
                 ctx.strokeRect(tile + tile * i, tile + tile * j, tile, tile);
                 ctx.fillText( tileNumber, tile + 12 + tile * i, tile + 30 + tile * j);
 
@@ -122,7 +122,7 @@
         }
 
 
-        console.log([...emptySpaces]);
+        console.log([...emptySpaces].sort());
     // Draw snake
         for(let i =0; i < snake.length; i++){
             ctx.fillStyle = (i === 0) ? "orange" : "yellow";
@@ -141,8 +141,8 @@
         let newFoodLocation = openSpots[Math.floor(Math.random() * (openSpots.length + 1))];
         // return [Math.floor(newFoodLocation / width), newFoodLocation % width]
         return {
-            x: Math.floor(newFoodLocation / width),
-            y: newFoodLocation % width
+            x: Math.floor(newFoodLocation / height),
+            y: newFoodLocation % height
         }
     }
 
@@ -174,12 +174,12 @@
 // Game over?
     function gameOver(x, y){
     // check for snake head collision with wall
-        if((x < 0) || (x > width) || (y < 0) || (y > height)) return true;
+        if((x < 0) || (x > width - 1) || (y < 0) || (y > height - 1)) return true;
     // check for snake head collision with self
         // Snake can't hit self if length < 5
         if(snake.length < 5) return false;
     // If head location is not in emptySpaces Set, snake has crashed into self
-        if(!emptySpaces.has(x * width + y)){
+        if(!emptySpaces.has(x * height + y)){
             console.log("HIT");
             return true
         };
