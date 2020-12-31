@@ -1,34 +1,34 @@
-// classes board, snake, tile, food
+// classes board, cabbage worm, tile, food
 // Build game:
-    // Grab element from HTML
-        const cvs = document.getElementById("snake");
-        const ctx = cvs.getContext("2d");
-        document.addEventListener("keydown", changeDirection);
     // Initialize variables
         // Height and width will change to depend on user input in the future.
-        // Tile: width of snake
-        const height = 10, width = 5, tile = 50;
+        // Tile: tile width/height
+        let height = 10, width = 10, tile = 50, maxGameHeight = window.height - 210 , maxGameWidth = window.length - 20;
+
         // Score, highScore keep track of scores
         // Speed: Interval between draws, determines speed of game
         // Active: Is game going on? Prevent height and width from changing mid-game
         // Direction
         let score = 0, highScore = 0, defaultSpeed = 1000000000, active = true, direction;
         let speed = defaultSpeed;
-    // Change tile to be window width / (user request + 2), so long tile > minimum
+    // Grab element from HTML
+        const cvs = document.getElementById("cabbage-worm");
+        const ctx = cvs.getContext("2d");
+        document.addEventListener("keydown", changeDirection);
 
-    // Set snake head, use emptySpaces to keep track of empty spaces
-        let snake = [];
+    // Set worm head, use emptySpaces to keep track of empty spaces
+        let worm = [];
         const emptySpaces = new Set();
         for(let i = 0; i < width * height; i++){
             emptySpaces.add(i);
         }
 
-        snake[0] = {
+        worm[0] = {
             x: Math.floor(Math.random()*width),
             y: Math.floor(Math.random()*height)
         }
         // Can't remove from emptySpaces until check has been done, or game will crash
-        // emptySpaces.delete(snake[0].x * width + snake[0].y);
+        // emptySpaces.delete(worm[0].x * width + worm[0].y);
     // Set food
         const foodImg = new Image();
         foodImg.src = "img/food.png";
@@ -51,16 +51,15 @@
 // Turn
     function turn(){
     // Determine new head
-        let snakeX = snake[0].x;
-        let snakeY = snake[0].y;
+        let wormX = worm[0].x;
+        let wormY = worm[0].y;
         if(direction){
-            if( direction === "LEFT") snakeX -= 1;
-            else if( direction === "UP") snakeY -= 1;
-            else if( direction === "RIGHT") snakeX += 1;
-            else if( direction === "DOWN") snakeY += 1;
+            if( direction === "LEFT") wormX -= 1;
+            else if( direction === "UP") wormY -= 1;
+            else if( direction === "RIGHT") wormX += 1;
+            else if( direction === "DOWN") wormY += 1;
     // Check if new position will end game
-        if(gameOver(snakeX, snakeY)){
-            console.log("GAMEOVER, ", score);
+        if(gameOver(wormX, wormY)){
         // End Game, TBD, DONT DRAW
         // Active = false
             clearInterval(game);
@@ -74,13 +73,13 @@
     // Advance
         // unshift new head
         // Remove head from emptySpaces
-        snake.unshift({
-            x: snakeX,
-            y: snakeY
+        worm.unshift({
+            x: wormX,
+            y: wormY
         });
-        emptySpaces.delete(snakeX * height + snakeY)
+        emptySpaces.delete(wormX * height + wormY)
         // Eat food?
-            if(snakeX === food.x && snakeY === food.y){
+            if(wormX === food.x && wormY === food.y){
             // update score
             // Reassign food
                 scoreUpdate();
@@ -89,14 +88,16 @@
             else{
             // Pop tail
             // Add tail to emptySpaces
-            const poop = snake.pop();
+            const poop = worm.pop();
             emptySpaces.add(poop.x * height + poop.y)
             }        
         }
     // Draw
         draw();
-        console.log("SNAKE", snake[0].x, snake[0].y, snake[0].x*height + snake[0].y);
+/*
+        console.log("WORM", worm[0].x, worm[0].y, worm[0].x*height + worm[0].y);
         console.log("FOOD", food.x, food.y, food.x*height + food.y)
+*/
     }
 
 // FUNCTIONS:
@@ -108,7 +109,8 @@
         ctx.fillRect(0,0,(width + 2) * tile, (height + 2) * tile);
         ctx.fillStyle = "saddlebrown";
         ctx.fillRect(tile, tile, width * tile, height * tile);
-        
+
+/*        
         for(let i = 0; i < width; i++){
             for(let j = 0; j < height; j++){
                 ctx.font = "20px Comic Sans MS";
@@ -121,15 +123,15 @@
             }
         }
 
-
         console.log([...emptySpaces].sort());
-    // Draw snake
-        for(let i =0; i < snake.length; i++){
-            ctx.fillStyle = (i === 0) ? "orange" : "yellow";
-            ctx.fillRect(tile + tile * snake[i].x, tile + tile * snake[i].y, tile, tile);
+*/
+    // Draw worm
+        for(let i =0; i < worm.length; i++){
+            ctx.fillStyle = (i === 0) ? "green" : "lightgreen";
+            ctx.fillRect(tile + tile * worm[i].x, tile + tile * worm[i].y, tile, tile);
 
-            ctx.strokeStyle = "red";
-            ctx.strokeRect(tile + tile * snake[i].x, tile + tile * snake[i].y, tile, tile);
+            ctx.strokeStyle = "yellow";
+            ctx.strokeRect(tile + tile * worm[i].x, tile + tile * worm[i].y, tile, tile);
         }
     // Draw food
         ctx.drawImage(foodImg, tile + tile * food.x, tile + tile * food.y, tile, tile);
@@ -138,7 +140,7 @@
 // Food assignment
     function setFood(){
         let openSpots = [...emptySpaces];
-        let newFoodLocation = openSpots[Math.floor(Math.random() * (openSpots.length + 1))];
+        let newFoodLocation = openSpots[Math.floor(Math.random() * openSpots.length)];
         // return [Math.floor(newFoodLocation / width), newFoodLocation % width]
         return {
             x: Math.floor(newFoodLocation / height),
@@ -173,14 +175,13 @@
 
 // Game over?
     function gameOver(x, y){
-    // check for snake head collision with wall
+    // check for worm head collision with wall
         if((x < 0) || (x > width - 1) || (y < 0) || (y > height - 1)) return true;
-    // check for snake head collision with self
-        // Snake can't hit self if length < 5
-        if(snake.length < 5) return false;
-    // If head location is not in emptySpaces Set, snake has crashed into self
+    // check for worm head collision with self
+        // Worm can't hit self if length < 5
+        if(worm.length < 5) return false;
+    // If head location is not in emptySpaces Set, worm has crashed into self
         if(!emptySpaces.has(x * height + y)){
-            console.log("HIT");
             return true
         };
     // Game not over.
