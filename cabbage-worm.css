@@ -1,0 +1,101 @@
+html, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video, button, input {
+
+	padding: 0;
+	border: 0;
+	font-family: "canada-type-gibson", "Gibson", "Helvetica Neue", sans-serif;
+	font-size: 20px;
+	vertical-align: baseline;
+}
+
+h1, p, input, div{
+    margin: 5px;
+}
+
+.odd{
+    background-color: lightgreen;
+}
+.even{
+    background-color: green;
+}
+.head{
+    border: 1px solid red;
+}
+.food{
+    background: orange;
+}
+div, canvas{
+    /* border: 1px solid black; */
+}
+body{
+    margin: 0px;
+    padding: 0px;
+    background-color: bisque;
+    display: flex;
+    vertical-align: baseline;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+}
+
+#build-grid{
+    display: flex;
+    flex-wrap: wrap;
+    flex: 1 1 auto;
+}
+#gameboard{
+    flex: 1 1 auto;
+}
+div{
+    display: flex;
+    justify-content: center;
+}
+
+.display-stat{
+    font: 20px Comic Sans MS;
+    font-weight: bold;
+    color: green;
+    display:inline-block
+}
+h1{
+    font: 60px Arial;
+    color: red;
+    font-weight: bold;
+    /* margin: 10px; */
+    align-self: center;
+}
+
+button, .button{
+    width: 200px;
+    height: 50px;
+    font: 35px Arial, sans-serif;
+    color: white;
+    background-color: orange;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+}
+
+.input-dimension{
+	font-size: 20px;
+	width: 100px;
+	padding: 3px;
+	border-radius: 5px;
+	border: 1px solid lightgray;
+}
+.note{
+    color: yellowgreen;
+    font-size: 15px;
+    margin: 0;
+}

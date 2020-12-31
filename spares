@@ -1,5 +1,5 @@
 
-        <!-- <link rel="stylesheet" href="snake.css"> -->
+        <!-- <link rel="stylesheet" href="cabbage-worm.css"> -->
 
 
     <body>
@@ -17,8 +17,14 @@ createElement
 createDocumentFragment()
 replaceChild
 insertAdjacentHTML
+createAttribute
 
 
   var btn = document.createElement("DIV");
   btn.innerHTML += "<div class='specs-or-stats'><p class='display-stat'>Score: <em id='score'>0</em></p><p class='display-stat'>Time: <em id='time'>0</em>s</p><p class='display-stat'>Highest score: <em id='highScore'>0</em></p></div>";
   document.body.appendChild(btn);
+
+  The desired width is ${requestWidth} and height ${requestHeight}.<br>
+  The window width and height ${totalWidth} and ${totalHeight}.<br>
+  The set width is ${totalWidth - 2} + 2 and height ${totalHeight - 2} + 2.<br>
+  Each tile will have a length of ${tile}pixels on each side.<br>

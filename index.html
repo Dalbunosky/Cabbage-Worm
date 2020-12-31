@@ -2,21 +2,39 @@
     <head>
         <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
         <meta content="utf-8" http-equiv="encoding">
-        <title>Snake</title>
-        <link rel="stylesheet" href="snake.css">
+        <title>Cabbage Worm</title>
+        <link rel="stylesheet" href="cabbage-worm.css">
     </head>
-    <!-- <canvas id="snake" width="608" height="608"></canvas> -->
-    <body>
-        <div class="specs-or-stats">
+    <!-- <canvas id="cabbage-worm" width="608" height="608"></canvas> -->
+    <body id="body">
+        <h1>Cabbage Worm</h1>
+        <div id="specs-or-stats">
             <p class="display-stat">Score: <em id='score'>0</em></p>
             <p class="display-stat">Time: <em id='time'>0</em>s</p>
             <p class="display-stat">Highest score: <em id='highScore'>0</em></p>
-
-            <div>
-                <canvas id="snake" width="608" height="608"></canvas>
-            </div>
-            <button>Restart</button>
         </div>
+        <div id="build-grid">
+            <label class="grid-spec" for="width">
+                <p class="display-stat">Width:</p>
+                <input class="input-dimension" id="width" type="number" value=10 />
+            </label>
+
+            <label class="grid-spec" for="height">
+                <p class="display-stat">Height:</p>
+                <input class="input-dimension" id="height" type="number" value=10 />
+            </label>
+            <!-- <input id="start" class="session-submit button" type="submit" value="Start Game!" /> -->
+            <button id="start" class="session-submit">Start Game!</button>
+            <!-- <input class="session-submit button" type="submit" onclick="setDimensions()" value="Start Game!" /> -->
+            <p class="note">*Width and height of game will reduce if unable to fit onto screen.</p>
+        </div>
+        <!-- <div id="gameboard">
+            <canvas id="cabbage-worm" width="1910" height="832"></canvas>
+        </div> -->
+
+        <!-- <script src="board.js"></script> -->
+        <script type="text/javascript module" src="board.js"></script>
+        <!-- <script src="game1.js"></script> -->
     </body>
-    <script src="snake.js"></script>
+    <!-- <script src="game.js"></script> -->
 </html>
