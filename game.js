@@ -2,7 +2,7 @@
 // Build game:
 
 // export default class Game{
-class Game{
+export default class Game{
     // Initialize variables
     constructor(width, height, tile) {
         this.height = height;
@@ -23,8 +23,9 @@ class Game{
 
         this.cvs = document.getElementById("cabbage-worm");
         this.ctx = this.cvs.getContext("2d");
-        document.addEventListener("keydown", changeDirection);
-        startGame();
+        document.addEventListener("keydown", this.changeDirection);
+        console.log("SUCCESS");
+        this.startGame();
     }
 
     // Set worm head, use emptySpaces to keep track of empty spaces
@@ -39,36 +40,48 @@ class Game{
         }
         this.emptySpaces.delete(this.worm[0].x * this.height + this.worm[0].y);
 
-        this.foodImg.src = "img/food.png";
-        this.food = setFood();
+        this.foodImg.src = "./img/food.png";
+        this.food = this.setFood();
     // Run game
         // Turn every SPEED
-        draw();
-        game = setInterval(turn, speed);        
+        this.draw();
+        this.game = setInterval(this.turn, this.speed);
+        while(!this.gameOver()){
+            setTimeout( 
+                function(){
+                    console.log("RUNNING");
+                }, 50
+            );
+        } 
+        clearInterval(this.game);
+        this.active = false;
+        let highScore = parseInt(document.getElementById('highScore').innerText);
+        if(this.score > highScore) document.getElementById('highScore').innerText = '' + this.score;
+        this.score = 0;
     }
 
 // Turn
     turn(){
     // Determine new head
-        let wormX = worm[0].x;
-        let wormY = worm[0].y;
+        let wormX = this.worm[0].x;
+        let wormY = this.worm[0].y;
         if(this.direction){
             if( this.direction === "LEFT") wormX -= 1;
             else if( this.direction === "UP") wormY -= 1;
             else if( this.direction === "RIGHT") wormX += 1;
             else if( this.direction === "DOWN") wormY += 1;
     // Check if new position will end game
-        if(gameOver(wormX, wormY)){
-        // End Game, TBD, DONT DRAW
-        // Active = false
-            clearInterval(game);
-            active = false;
-        // Reassign high score
-        // Reset score
-            if(score > highScore) highScore = score;
-            document.getElementById('highScore').innerText = '' + highScore;
-            score = 0;
-        }
+                            // if(gameOver()){
+                            // // End Game, TBD, DONT DRAW
+                            // // Active = false
+                            //     clearInterval(game);
+                            //     this.active = false;
+                            // // Reassign high score
+                            // // Reset score
+                            //     if(score > highScore) highScore = score;
+                            //     document.getElementById('highScore').innerText = '' + highScore;
+                            //     score = 0;
+                            // }
     // Advance
         // unshift new head
         // Remove head from emptySpaces
@@ -93,10 +106,6 @@ class Game{
         }
     // Draw
         draw();
-/*
-        console.log("WORM", worm[0].x, worm[0].y, worm[0].x*height + worm[0].y);
-        console.log("FOOD", food.x, food.y, food.x*height + food.y)
-*/
     }
 
 // FUNCTIONS:
@@ -139,7 +148,7 @@ class Game{
             ctx.strokeRect(tile + tile * worm[i].x, tile + tile * worm[i].y, tile, tile);
         }
     // Draw food
-        ctx.drawImage(foodImg, tile + tile * food.x, tile + tile * food.y, tile, tile);
+        ctx.drawImage(this.foodImg, tile + tile * this.food.x, tile + tile * this.food.y, tile, tile);
     }
 
 // Food assignment
@@ -178,14 +187,16 @@ class Game{
     };
 
 // Game over?
-    gameOver(x, y){
+    gameOver(){
+        let wormX = this.worm[0].x;
+        let wormY = this.worm[0].y;
     // check for worm head collision with wall
-        if((x < 0) || (x > this.width - 1) || (y < 0) || (y > this.height - 1)) return true;
+        if((wormX < 0) || (wormX > this.width - 1) || (wormY < 0) || (wormY > this.height - 1)) return true;
     // check for worm head collision with self
         // Worm can't hit self if length < 5
-        if(worm.length < 5) return false;
+        if(this.worm.length < 5) return false;
     // If head location is not in emptySpaces Set, worm has crashed into self
-        if(!emptySpaces.has(x * this.height + y)){
+        if(!emptySpaces.has(wormX * this.height + wormY)){
             return true
         };
     // Game not over.

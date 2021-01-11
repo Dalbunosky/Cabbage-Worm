@@ -1,12 +1,11 @@
 import Game from "./game.js";
 // const Game = require('./game.js');
 // import "./game.js";
+
 let elem = document.getElementById("start");
-console.log("elem");
 document.getElementById("start").addEventListener("click", setDimensions);
 
 function setDimensions(){
-    console.log("TEST");
 // Record player's desired width and height
 // Determine if too big (cause tile size to be < 20)
 // Correct as needed, then pick bigger of 2 possible tile size, max at 50
@@ -29,15 +28,15 @@ function setDimensions(){
     att.value = "gameboard";
     gameboard.setAttributeNode(att);
 
-    gameboard.innerHTML = `
-    <p>The desired width is ${requestWidth} and height ${requestHeight}.<br>
-    The window width is ${boardWidth} and height ${boardHeight}.<br>
-    The set width is ${totalWidth - 2} + 2 and height ${totalHeight - 2} + 2.<br>
-    Each tile will have a length of ${tile}pixels on each side.<br></p>`; 
+    // gameboard.innerHTML = `
+    // <p>The desired width is ${requestWidth} and height ${requestHeight}.<br>
+    // The window width is ${boardWidth} and height ${boardHeight}.<br>
+    // The set width is ${totalWidth - 2} + 2 and height ${totalHeight - 2} + 2.<br>
+    // Each tile will have a length of ${tile}pixels on each side.<br></p>`; 
     
-    // gameboard.innerHTML = `<canvas id="cabbage-worm" width="${boardWidth}" height=${boardHeight}></canvas>`;
+    gameboard.innerHTML = `<canvas id="cabbage-worm" width="${boardWidth}" height=${boardHeight}></canvas>`;
 
     const buildGrid = document.getElementById("build-grid");
     buildGrid.parentNode.replaceChild(gameboard, buildGrid);
-    // Game(totalWidth, totalHeight, tile);
+    new Game(totalWidth, totalHeight, tile);
 }
