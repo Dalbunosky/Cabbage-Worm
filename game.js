@@ -9,6 +9,7 @@ export default class Game{
         this.width = width;
         this.tile = tile;
 
+        this.lastRender = 0;
         this.score = 0;
         this.speed = 1000;
         this.active = true; // Might eliminate later
@@ -45,19 +46,38 @@ export default class Game{
     // Run game
         // Turn every SPEED
         this.draw();
-        this.game = setInterval(this.turn, this.speed);
-        while(!this.gameOver()){
-            setTimeout( 
-                function(){
-                    console.log("RUNNING");
-                }, 50
-            );
-        } 
+        // this.game = setInterval(this.turn, this.speed);
+        window.requestAnimationFrame(this.main);
+        
+        // while(!this.gameOver()){
+        //     setTimeout( 
+        //         function(){
+        //             console.log("RUNNING");
+        //         }, 50
+        //     );
+        // } 
+        //GAME OVER
+
         clearInterval(this.game);
         this.active = false;
         let highScore = parseInt(document.getElementById('highScore').innerText);
         if(this.score > highScore) document.getElementById('highScore').innerText = '' + this.score;
         this.score = 0;
+    }
+
+// Main, used for work requestAnimationFrame with turn
+    main(currentTime){
+        const timeSinceRender = currentTime - this.lastRender;
+        console.log(currentTime);
+        if(timeSinceRender < this.speed) return;
+        window.requestAnimationFrame(this.main);
+        this.turn();
+        console.log(this.lastRender);
+        this.lastRender = currentTime;
+        // setTimeout(this.turn(), this.speed);
+        // if(!this.gameOver()){
+        //     window.requestAnimationFrame(this.step());
+        // }
     }
 
 // Turn
@@ -105,7 +125,7 @@ export default class Game{
             }        
         }
     // Draw
-        draw();
+        this.draw();
     }
 
 // FUNCTIONS:
@@ -183,7 +203,8 @@ export default class Game{
     scoreUpdate() {
         this.score ++;
         document.getElementById('score').innerText = '' + this.score;
-        if(this.score % 5 === 0) this.speed *= 0.95;
+        // if(this.score % 5 === 0) 
+        this.speed *= 0.95;
     };
 
 // Game over?
