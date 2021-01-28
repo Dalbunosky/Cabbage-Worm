@@ -38,5 +38,21 @@ function setDimensions(){
 
     const buildGrid = document.getElementById("build-grid");
     buildGrid.parentNode.replaceChild(gameboard, buildGrid);
-    new Game(totalWidth, totalHeight, tile);
+    let currCWGame = new Game(totalWidth, totalHeight, tile);
+    window.requestAnimationFrame(currCWGame.main);
+
+
+}
+
+function main(currCWGame){
+    let currentTime = Date.now();
+    if(currCWGame.gameOver()){
+        currCWGame.endGame();
+        return;
+    }
+    const timeSinceRender = currentTime - currCWGame.lastRender;
+    window.requestAnimationFrame(currCWGame.main);
+    if(timeSinceRender < currCWGame.speed) return;
+    currCWGame.turn();
+    currCWGame.lastRender = currentTime;
 }
