@@ -43,22 +43,41 @@ export default class Game{
 
         this.foodImg.src = "./img/food.png";
         this.food = this.setFood();
-        
+    // Run game
+        // Turn every SPEED
         this.draw();
-        // window.requestAnimationFrame(this.main);
+        // this.game = setInterval(this.turn, this.speed);
+        window.requestAnimationFrame(this.main);
+        
+        // while(!this.gameOver()){
+        //     setTimeout( 
+        //         function(){
+        //             console.log("RUNNING");
+        //         }, 50
+        //     );
+        // } 
+        //GAME OVER
+
+        clearInterval(this.game);
+        this.active = false;
+        let highScore = parseInt(document.getElementById('highScore').innerText);
+        if(this.score > highScore) document.getElementById('highScore').innerText = '' + this.score;
+        this.score = 0;
     }
 
 // Main, used for work requestAnimationFrame with turn
     main(currentTime){
-        if(this.gameOver()){
-            this.endGame();
-            return;
-        }
         const timeSinceRender = currentTime - this.lastRender;
-        window.requestAnimationFrame(this.main);
+        console.log(currentTime);
         if(timeSinceRender < this.speed) return;
+        window.requestAnimationFrame(this.main);
         this.turn();
+        console.log(this.lastRender);
         this.lastRender = currentTime;
+        // setTimeout(this.turn(), this.speed);
+        // if(!this.gameOver()){
+        //     window.requestAnimationFrame(this.step());
+        // }
     }
 
 // Turn
@@ -203,11 +222,5 @@ export default class Game{
         };
     // Game not over.
         return false;
-    }
-    endGame(){
-        this.active = false;
-        let highScore = parseInt(document.getElementById('highScore').innerText);
-        if(this.score > highScore) document.getElementById('highScore').innerText = '' + this.score;
-        this.score = 0;
     }
 }
