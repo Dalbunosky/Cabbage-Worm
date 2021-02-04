@@ -3,7 +3,6 @@ import {startGame, main} from './CWlogic/CWgame.js';
 // const Game = require('./game.js');
 // import "./game.js";
 
-let elem = document.getElementById("start");
 document.getElementById("start").addEventListener("click", setDimensions);
 let totalHeight, totalWidth;
 export let height, width, tile;
@@ -55,10 +54,10 @@ function setDimensions(){
     att.value = "gameboard";
     gameboard.setAttributeNode(att);
 
-    const script_element = document.createElement('script');
-    script_element.type = 'module';
-    script_element.src = './CWlogic/CWgame.js';
-    gameboard.appendChild(script_element);
+    // const script_element = document.createElement('script');
+    // script_element.type = 'module';
+    // script_element.src = './CWlogic/CWgame.js';
+    // gameboard.appendChild(script_element);
     
     gameboard.innerHTML = `<canvas id="cabbage-worm" width="${boardWidth}px" height="${boardHeight}px"></canvas>`;
     const buildGrid = document.getElementById("build-grid");

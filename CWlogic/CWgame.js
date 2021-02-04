@@ -11,8 +11,9 @@ import {height, width, tile} from '../buildCWGame.js';
     // Initialize variables
 // export let height, width, tile;
 // document.addEventListener("keydown", turn);
+document.getElementById("restart").addEventListener("click", resetGame);
 
-let lastRender = 0, score = 0, speed = 500;
+let lastRender = 0, score = 0, speed = 500, startTime = 0;
 
 let cvs;
 let ctx;
@@ -27,12 +28,26 @@ export function startGame(){
     draw();
 }
 
+function resetGame(){
+    window.cancelAnimationFrame(main);
+    document.getElementById('gameOver').remove();
+    score = 0;
+    speed = 500;
+    lastRender = 0;
+    document.getElementById('score').innerText = '' + score;
+    startGame();
+    startTime = window.requestAnimationFrame(main);
+    
+}
+
 // Main, used for work requestAnimationFrame with turn
 export function main(currentTime){
     ///// NA
+    // document.getElementById('time').innerText = Math.floor((currentTime)/100 - startTime/5)/10;
     const timeSinceRender = currentTime - lastRender;
     if(gameOver()){
         endGame();
+        cancelAnimationFrame(main);
         return;
     }
     window.requestAnimationFrame(main);
