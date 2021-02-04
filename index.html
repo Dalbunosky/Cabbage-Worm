@@ -9,9 +9,11 @@
     <body id="body">
         <h1>Cabbage Worm</h1>
         <div id="specs-or-stats">
+            <button id="restart">Restart</button>
             <p class="display-stat">Score: <em id='score'>0</em></p>
-            <p class="display-stat">Time: <em id='time'>0</em>s</p>
+            <!-- <p class="display-stat">Time: <em id='time'>0</em>s</p> -->
             <p class="display-stat">Highest score: <em id='highScore'>0</em></p>
+            <!-- <button>Game Hall</button> -->
         </div>
         <div id="build-grid">
             <label class="grid-spec" for="width">
@@ -23,19 +25,10 @@
                 <p class="display-stat">Height:</p>
                 <input class="input-dimension" id="height" type="number" value=10 />
             </label>
-            <!-- <input id="start" class="session-submit button" type="submit" value="Start Game!" /> -->
-            <!-- <input id="start" class="session-submit button" type="submit" onclick="setDimensions()" value="Start Game!" /> -->
             <button id="start" class="session-submit">Start Game!</button>
-            <!-- <button id="start" class="session-submit" onclick="setDimensions()">Start Game!</button> -->
             <p class="note">*Width and height of game will reduce if unable to fit onto screen.</p>
         </div>
-        <!-- <div id="gameboard">
-            <canvas id="cabbage-worm" width="1910" height="832"></canvas>
-        </div> -->
 
-        <!-- <script src="board.js"></script> -->
         <script type="module" src="./buildCWGame.js"></script>
-        <!-- <script src="game1.js"></script> -->
     </body>
-    <!-- <script src="game.js"></script> -->
 </html>

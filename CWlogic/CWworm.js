@@ -66,6 +66,8 @@ export function surveyEmptySpaces(){
     }
 }
 export function bornWorm(){
+    direction = null;
+    worm = [];
     worm[0] = {
         x: Math.floor(Math.random()*width),
         y: Math.floor(Math.random()*height)
@@ -89,6 +91,7 @@ export function hitSelf(){
 // If head location is not in emptySpaces Set, worm has crashed into self
     if((emptySpaces.size + worm.length) > (width*height)){
     // if(!emptySpaces.has(worm[0].x * height + worm[0].y)){
+        showHitSelf();
         console.log("SELF")
         return true
     };
@@ -105,4 +108,13 @@ export function drawWormHead(ctx){
 export function showEmptySpace(){
     console.log(emptySpaces.size + worm.length);
     console.log([...emptySpaces].sort());
+}
+
+function showHitSelf(){
+    const overText = document.createElement('span');
+    const att = document.createAttribute("id");
+    att.value = "gameOver";
+    overText.setAttributeNode(att);
+    overText.innerText = "You've hit yourself!"
+    gameboard.appendChild(overText);
 }

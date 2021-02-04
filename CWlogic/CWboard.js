@@ -2,7 +2,7 @@ import {height, width, tile} from '../buildCWGame.js';
 import {worm} from './CWworm.js';
 
 export function drawBoard(ctx){
-    ctx.fillStyle = "#FF0000";
+    ctx.fillStyle = "#AA0000";
     ctx.fillRect(0,0,(width + 2) * tile, (height + 2) * tile);
     ctx.fillStyle = "saddlebrown";
     ctx.fillRect(tile, tile, width * tile, height * tile);
@@ -12,6 +12,7 @@ export function hitWall(){
     let wormX = worm[0].x;
     let wormY = worm[0].y;
     if((wormX < 0) || (wormX > width - 1) || (wormY < 0) || (wormY > height - 1)){ 
+        showHitWall();
         console.log("WALL");
         return true
     };
@@ -30,4 +31,13 @@ export function showTile(){
 
         }
     }
+}
+
+function showHitWall(){
+    const overText = document.createElement('span');
+    const att = document.createAttribute("id");
+    att.value = "gameOver";
+    overText.setAttributeNode(att);
+    overText.innerText = "You've hit the wall!"
+    gameboard.appendChild(overText);
 }
