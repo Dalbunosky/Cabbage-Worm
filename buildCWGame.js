@@ -1,4 +1,4 @@
-import Game from "./game.js";
+// import Game from "./game.js";
 import {startGame, main} from './CWlogic/CWgame.js';
 // const Game = require('./game.js');
 // import "./game.js";
